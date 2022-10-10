@@ -82,9 +82,9 @@ $searchForm.on("submit", async function (evt) {
 });
 
 
-/** Given a show ID, get from API and return (promise) array of episodes:
- *      { id, name, season, number }
- */
+// Given a show ID, get from API and return (promise) array of episodes:
+//       { id, name, season, number }
+ 
 
 // async function getEpisodesOfShow(id) { }
 
