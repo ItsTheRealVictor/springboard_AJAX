@@ -1,3 +1,5 @@
+const $showsList = $("#shows-list");
+
 async function getSomeData(){
     const someData = await axios.get("https://api.tvmaze.com/search/shows?q=monsters")
     console.log(someData.data)
@@ -13,7 +15,7 @@ async function getSomeData(){
  
 async function displayTVshowObject(num){
     const tvShow = await axios.get(`http://api.tvmaze.com/shows/${num}`)
-    console.log(tvShow)
+    console.log(tvShow.data.image.original)
 }
 
 
@@ -71,14 +73,78 @@ async function getEpisodes(num){
 async function getShowsByTerm(query) {
     // ADD: Remove placeholder & make request to TVMaze search shows API.
     let termShows = await axios.get(`https://api.tvmaze.com/search/shows?q=${query}`)
-    results = []
-    for (let item of termShows.data){
-        results.push({
-            'id': item.show.id,
-            'name': item.show.name,
-            'summary': item.show.summary})
+    // return results
+    
+
+    // for debugging purposes (inspecting the show data to grab what I want)
+    for (let thing of termShows.data){
+        if(!(thing.show.image)){
+            console.log('oops')
+        } else {
+            console.log('image here')
+        }
     }
-    return results
+
+
+    $showsList.empty();
+    
+    shows = []
+    for (let item of termShows.data){
+
+        // if the show has no image, use a stock image
+        if (!(item.show.image)){
+            shows.push({
+                'id': item.show.id,
+                'name': item.show.name,
+                'summary': item.show.summary,
+                'original': 'https://tinyurl.com/tv-missing'
+            })
+        } else{
+            // if it does have an image, push it into the shows array.
+            shows.push({
+                'id': item.show.id,
+                'name': item.show.name,
+                'summary': item.show.summary,
+                'original': item.show.image.original
+            })
+        }
+    }
+
+    for (let show of shows) {
+      const $show = $(
+          `<div data-show-id="${show.id}" class="Show col-md-12 col-lg-6 mb-4">
+           <div class="media">
+             <img 
+                src="${show.original}" 
+                alt="oops" 
+                class="w-25 mr-3">
+             <div class="media-body">
+               <h5 class="text-primary">${show.name}</h5>
+               <div><small>${show.summary}</small></div>
+               <button class="btn btn-outline-light btn-sm Show-getEpisodes">
+                 Episodes
+               </button>
+             </div>
+           </div>  
+         </div>
+        `);
+  
+      $showsList.append($show);  }
+  }
+getShowsByTerm('space')
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // return [
     //     {
@@ -98,4 +164,4 @@ async function getShowsByTerm(query) {
     //         "http://static.tvmaze.com/uploads/images/medium_portrait/147/369403.jpg"
     //     }
     // ]
-    }
+    // }
