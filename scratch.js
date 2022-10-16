@@ -56,34 +56,43 @@ async function getEpisodes(num){
     // my code
     
     const episodeData = await axios.get(`http://api.tvmaze.com/shows/${num}/episodes`)
-    results = []
+    episodeResults = []
     for (let item of episodeData.data){
-        results.push([
+        episodeResults.push([
             {
             'id': num,
-            'episode name': item.name,
+            'episode_name': item.name,
             'season': item.season,
             'number': item.number 
                     }])
     }
-    return results
+    // for debugging purposes
+
+    // for (let result of episodeResults){
+    //     console.log(result[0])
+    // }
+    for (let result of episodeResults){
+        let item = `<li>${result[0].episode_name} (ep # ${result[0].number}, season ${result[0].season})</li>`
+        $('#episodes-list').append(item)
+    }
 }
+console.log(getEpisodes(50))
     // end my code
 
 async function getShowsByTerm(query) {
     // ADD: Remove placeholder & make request to TVMaze search shows API.
     let termShows = await axios.get(`https://api.tvmaze.com/search/shows?q=${query}`)
-    // return results
+    // return episodeResults
     
 
     // for debugging purposes (inspecting the show data to grab what I want)
-    for (let thing of termShows.data){
-        if(!(thing.show.image)){
-            console.log('oops')
-        } else {
-            console.log('image here')
-        }
-    }
+    // for (let thing of termShows.data){
+    //     if(!(thing.show.image)){
+    //         console.log('oops')
+    //     } else {
+    //         console.log('image here')
+    //     }
+    // }
 
 
     $showsList.empty();
@@ -131,7 +140,7 @@ async function getShowsByTerm(query) {
   
       $showsList.append($show);  }
   }
-getShowsByTerm('space')
+getShowsByTerm('funny')
 
 
 
