@@ -1,5 +1,6 @@
 const $showsList = $("#shows-list");
 const $searchForm = $('#search-form')
+const $episodesList = $('#episodes-list')
 
 
 async function getSomeData(){
@@ -166,15 +167,15 @@ $searchForm.on('submit', async function(evt) {
 
 // const epButt = $('.Show-getEpisodes')
 
-$(document).on('click', '.Show-getEpisodes', function(){
-    console.log($(this).parent())
+$(document).on('click', '.Show-getEpisodes', function(evt){
+    evt.preventDefault()
+
+    $episodesList.empty()
+
+    let tvShowID = ($(this).parent().parent().parent()[0].attributes[0].value) // This looks terrible, there has get to be a better way
+    getEpisodes(tvShowID)
+
 })
-
-
-
-
-
-
 
 
 
