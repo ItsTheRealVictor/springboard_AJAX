@@ -164,9 +164,11 @@ $searchForm.on('submit', async function(evt) {
     // console.log('fart')
 })
 
+// const epButt = $('.Show-getEpisodes')
 
-
-
+$(document).on('click', '.Show-getEpisodes', function(){
+    console.log($(this).parent())
+})
 
 
 
