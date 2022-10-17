@@ -1,4 +1,6 @@
 const $showsList = $("#shows-list");
+const $searchForm = $('#search-form')
+
 
 async function getSomeData(){
     const someData = await axios.get("https://api.tvmaze.com/search/shows?q=monsters")
@@ -76,23 +78,42 @@ async function getEpisodes(num){
         $('#episodes-list').append(item)
     }
 }
-console.log(getEpisodes(50))
+// console.log(getEpisodes(50))
     // end my code
 
-async function getShowsByTerm(query) {
+// $searchForm.on('submit', function(evt){
+//     evt.preventDefault()
+//     console.log('fart')
+// })
+
+$searchForm.on('submit', async function(evt){
+    evt.preventDefault()
+    let query = $('#search-query').val()
+
+    console.log(query)
+})
+
+
+    
+$searchForm.on('submit', async function(evt) {
+    evt.preventDefault()
+    let query = $('#search-query').val() 
+    
+
+
     // ADD: Remove placeholder & make request to TVMaze search shows API.
     let termShows = await axios.get(`https://api.tvmaze.com/search/shows?q=${query}`)
     // return episodeResults
     
 
-    // for debugging purposes (inspecting the show data to grab what I want)
-    // for (let thing of termShows.data){
-    //     if(!(thing.show.image)){
-    //         console.log('oops')
-    //     } else {
-    //         console.log('image here')
-    //     }
-    // }
+//     // for debugging purposes (inspecting the show data to grab what I want)
+//     // for (let thing of termShows.data){
+//     //     if(!(thing.show.image)){
+//     //         console.log('oops')
+//     //     } else {
+//     //         console.log('image here')
+//     //     }
+//     // }
 
 
     $showsList.empty();
@@ -120,27 +141,28 @@ async function getShowsByTerm(query) {
     }
 
     for (let show of shows) {
-      const $show = $(
-          `<div data-show-id="${show.id}" class="Show col-md-12 col-lg-6 mb-4">
-           <div class="media">
-             <img 
+    const $show = $(
+        `<div data-show-id="${show.id}" class="Show col-md-12 col-lg-6 mb-4">
+        <div class="media">
+            <img 
                 src="${show.original}" 
                 alt="oops" 
                 class="w-25 mr-3">
-             <div class="media-body">
-               <h5 class="text-primary">${show.name}</h5>
-               <div><small>${show.summary}</small></div>
-               <button class="btn btn-outline-light btn-sm Show-getEpisodes">
-                 Episodes
-               </button>
-             </div>
-           </div>  
-         </div>
+            <div class="media-body">
+            <h5 class="text-primary">${show.name}</h5>
+            <div><small>${show.summary}</small></div>
+            <button class="btn btn-outline-light btn-sm Show-getEpisodes">
+                Episodes
+            </button>
+            </div>
+        </div>  
+        </div>
         `);
-  
-      $showsList.append($show);  }
-  }
-getShowsByTerm('funny')
+
+    $showsList.append($show);  }
+
+    // console.log('fart')
+})
 
 
 
@@ -155,22 +177,4 @@ getShowsByTerm('funny')
 
 
 
-    // return [
-    //     {
-    //     id: 1767,
-    //     name: "The Bletchley Circle",
-    //     summary:
-    //         `<p><b>The Bletchley Circle</b> follows the journey of four ordinary 
-    //             women with extraordinary skills that helped to end World War II.</p>
-    //         <p>Set in 1952, Susan, Millie, Lucy and Jean have returned to their 
-    //             normal lives, modestly setting aside the part they played in 
-    //             producing crucial intelligence, which helped the Allies to victory 
-    //             and shortened the war. When Susan discovers a hidden code behind an
-    //             unsolved murder she is met by skepticism from the police. She 
-    //             quickly realises she can only begin to crack the murders and bring
-    //             the culprit to justice with her former friends.</p>`,
-    //     image:
-    //         "http://static.tvmaze.com/uploads/images/medium_portrait/147/369403.jpg"
-    //     }
-    // ]
-    // }
+
